@@ -1,39 +1,21 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
-import { Line, Bar, Pie } from 'react-chartjs-2';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import HighchartsStock from 'highcharts/modules/stock';
+import HighchartsMore from 'highcharts/highcharts-more';
 
-// Register necessary Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+// Initialize Highcharts modules
+HighchartsMore(Highcharts);
+HighchartsStock(Highcharts);
 
 const Dashboard = () => {
   // State to hold chart data
   const [candlestickData, setCandlestickData] = useState([]);
-  const [lineChartData, setLineChartData] = useState({ labels: [], data: [] });
-  const [barChartData, setBarChartData] = useState({ labels: [], data: [] });
-  const [pieChartData, setPieChartData] = useState({ labels: [], data: [] });
+  const [lineChartData, setLineChartData] = useState({ categories: [], data: [] });
+  const [barChartData, setBarChartData] = useState({ categories: [], data: [] });
+  const [pieChartData, setPieChartData] = useState({ categories: [], data: [] });
 
   // Fetch data from API on component mount
   useEffect(() => {
@@ -63,26 +45,71 @@ const Dashboard = () => {
 
   // Chart options for customization
   const lineChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: { beginAtZero: true },
-      y: { beginAtZero: true }
-    }
+    chart: {
+      type: 'line',
+      height: '400px'
+    },
+    title: {
+      text: 'Line Chart'
+    },
+    xAxis: {
+      categories: lineChartData.categories
+    },
+    series: [{
+      name: 'Line Chart Data',
+      data: lineChartData.data
+    }]
   };
 
   const barChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: { beginAtZero: true },
-      y: { beginAtZero: true }
-    }
+    chart: {
+      type: 'bar',
+      height: '400px'
+    },
+    title: {
+      text: 'Bar Chart'
+    },
+    xAxis: {
+      categories: barChartData.categories
+    },
+    series: [{
+      name: 'Bar Chart Data',
+      data: barChartData.data
+    }]
   };
 
   const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false
+    chart: {
+      type: 'pie',
+      height: '400px'
+    },
+    title: {
+      text: 'Pie Chart'
+    },
+    series: [{
+      name: 'Pie Chart Data',
+      data: (pieChartData.labels || []).map((label, index) => ({
+        name: label,
+        y: (pieChartData.data && pieChartData.data[index]) || 0
+      }))
+    }]
+  };
+
+  const candlestickChartOptions = {
+    chart: {
+      type: 'candlestick',
+      height: '400px'
+    },
+    title: {
+      text: 'Candlestick Chart'
+    },
+    xAxis: {
+      type: 'datetime'
+    },
+    series: [{
+      name: 'Candlestick',
+      data: candlestickData
+    }]
   };
 
   return (
@@ -93,16 +120,8 @@ const Dashboard = () => {
         {/* Line Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Line Chart</h2>
-          <Line
-            data={{
-              labels: lineChartData.labels,
-              datasets: [{
-                label: 'Line Chart Data',
-                data: lineChartData.data,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)'
-              }]
-            }}
+          <HighchartsReact
+            highcharts={Highcharts}
             options={lineChartOptions}
           />
         </div>
@@ -110,16 +129,8 @@ const Dashboard = () => {
         {/* Bar Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Bar Chart</h2>
-          <Bar
-            data={{
-              labels: barChartData.labels,
-              datasets: [{
-                label: 'Bar Chart Data',
-                data: barChartData.data,
-                borderColor: 'rgb(54, 162, 235)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)'
-              }]
-            }}
+          <HighchartsReact
+            highcharts={Highcharts}
             options={barChartOptions}
           />
         </div>
@@ -127,26 +138,18 @@ const Dashboard = () => {
         {/* Pie Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Pie Chart</h2>
-          <Pie
-            data={{
-              labels: pieChartData.labels,
-              datasets: [{
-                label: 'Pie Chart Data',
-                data: pieChartData.data,
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)'
-                ],
-                borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
-              }]
-            }}
+          <HighchartsReact
+            highcharts={Highcharts}
             options={pieChartOptions}
+          />
+        </div>
+
+        {/* Candlestick Chart */}
+        <div className="chart-container">
+          <h2 className="chart-title">Candlestick Chart</h2>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={candlestickChartOptions}
           />
         </div>
       </div>

@@ -83,11 +83,11 @@ a {
   border: 1px solid var(--chart-border);
   border-radius: 8px;
   padding: 16px;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  max-height: 400px; /* Set a maximum height to prevent indefinite growth */
+  max-height: 100%; /* Set a maximum height to prevent indefinite growth */
   overflow: hidden; /* Prevent overflow */
 }
 
@@ -104,7 +104,7 @@ a {
   width: 100%;
   height: 100%; /* Ensure the canvas takes up the full height of the container */
   display: block; /* Remove any inline spacing */
-  padding-bottom: 40px;
+  padding-bottom: 100px;
 }
 
 /* Grid layout adjustment */
