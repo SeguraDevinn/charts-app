@@ -111,6 +111,13 @@ const Dashboard = () => {
         text: 'Price'
       }
     },
+    plotOptions: {
+      candlestick: {
+        color: '#FF0000', // Red color for decreasing values
+        upColor: '#00FF00', // Green color for increasing values
+        colorByPoint: false, // Use color and upColor settings
+      }
+    },
     series: [{
       name: 'Candlestick',
       data: (candlestickData || []).map(point => [
