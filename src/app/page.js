@@ -17,6 +17,8 @@ const Dashboard = () => {
   const [barChartData, setBarChartData] = useState({ categories: [], data: [] });
   const [pieChartData, setPieChartData] = useState({ categories: [], data: [] });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   // Fetch data from API on component mount
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +36,9 @@ const Dashboard = () => {
         setLineChartData(lineChartRes.data);
         setBarChartData(barChartRes.data);
         setPieChartData(pieChartRes.data);
+        setErrorMessage('');
       } catch (error) {
+        setErrorMessage('Error fetching data. Please try again later.');
         // Log any errors during data fetching
         console.error('Error fetching data:', error);
       }
@@ -127,12 +131,20 @@ const Dashboard = () => {
         point.low, // Low
         point.close // Close
       ])
-    }]
+    }],
+    
   };
 
   return (
     <div className="container mx-auto p-4 bg-gray-100">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Dashboard</h1>
+
+      {errorMessage && (
+      <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg mb-4">
+        <h2 className="text-xl font-bold ">Error: {errorMessage} </h2>
+        
+      </div>
+    )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Line Chart */}
