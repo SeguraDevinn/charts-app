@@ -83,26 +83,28 @@ a {
   border: 1px solid var(--chart-border);
   border-radius: 8px;
   padding: 16px;
-  position: relative;
+  padding-bottom: 16px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align children to the start of the container */
-  height: 100%; /* Make height flexible to fit the content */
-  max-height: 400px; /* Limit height to prevent overflow */
+  align-items: stretch;
+  max-height: 400px; /* Set a maximum height to prevent indefinite growth */
+  overflow: hidden; /* Prevent overflow */
 }
 
 /* Title above the chart */
 .chart-title {
-  font-size: 1.25rem; /* Adjust as needed */
+  font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-color); /* Adjust as needed */
-  margin-bottom: 0.5rem; /* Space between title and chart */
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
 }
 
 /* Chart element */
 .chart-container canvas {
   width: 100%;
-  height: auto; /* Make height flexible to fit content */
+  height: 100%; /* Ensure the canvas takes up the full height of the container */
+  display: block; /* Remove any inline spacing */
+  padding-bottom: 40px;
 }
 
 /* Grid layout adjustment */

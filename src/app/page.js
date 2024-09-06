@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
@@ -11,10 +11,11 @@ import {
   ArcElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 } from 'chart.js';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 
+// Register necessary Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,14 +29,17 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  // State to hold chart data
   const [candlestickData, setCandlestickData] = useState([]);
   const [lineChartData, setLineChartData] = useState({ labels: [], data: [] });
   const [barChartData, setBarChartData] = useState({ labels: [], data: [] });
   const [pieChartData, setPieChartData] = useState({ labels: [], data: [] });
 
+  // Fetch data from API on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch data from multiple endpoints
         const [candlestickRes, lineChartRes, barChartRes, pieChartRes] = await Promise.all([
           axios.get('http://localhost:8000/api/candlestick-data/'),
           axios.get('http://localhost:8000/api/line-chart-data/'),
@@ -43,16 +47,13 @@ const Dashboard = () => {
           axios.get('http://localhost:8000/api/pie-chart-data/')
         ]);
 
-        console.log('Candlestick Data:', candlestickRes.data);
-        console.log('Line Chart Data:', lineChartRes.data);
-        console.log('Bar Chart Data:', barChartRes.data);
-        console.log('Pie Chart Data:', pieChartRes.data);
-
+        // Update state with fetched data
         setCandlestickData(candlestickRes.data.data || []);
         setLineChartData(lineChartRes.data);
         setBarChartData(barChartRes.data);
         setPieChartData(pieChartRes.data);
       } catch (error) {
+        // Log any errors during data fetching
         console.error('Error fetching data:', error);
       }
     };
@@ -60,7 +61,9 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  // Chart options for customization
   const lineChartOptions = {
+    responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: { beginAtZero: true },
@@ -69,6 +72,7 @@ const Dashboard = () => {
   };
 
   const barChartOptions = {
+    responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: { beginAtZero: true },
@@ -77,20 +81,8 @@ const Dashboard = () => {
   };
 
   const pieChartOptions = {
+    responsive: true,
     maintainAspectRatio: false
-  };
-
-  const candlestickOptions = {
-    chart: {
-      type: 'candlestick',
-      height: 400
-    },
-    rangeSelector: {
-      selected: 1
-    },
-    series: [{
-      data: candlestickData
-    }]
   };
 
   return (
@@ -98,6 +90,7 @@ const Dashboard = () => {
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Line Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Line Chart</h2>
           <Line
@@ -113,6 +106,8 @@ const Dashboard = () => {
             options={lineChartOptions}
           />
         </div>
+
+        {/* Bar Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Bar Chart</h2>
           <Bar
@@ -128,6 +123,8 @@ const Dashboard = () => {
             options={barChartOptions}
           />
         </div>
+
+        {/* Pie Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Pie Chart</h2>
           <Pie
@@ -152,7 +149,6 @@ const Dashboard = () => {
             options={pieChartOptions}
           />
         </div>
-
       </div>
     </div>
   );
