@@ -1,3 +1,10 @@
+/*
+* Created by Devinn Segura on September 5, 2024
+* The purpose of this application is to create a dashbaord that displays
+* information from a back-end that I have created. 
+ */
+
+// Imports
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,21 +13,28 @@ import HighchartsReact from 'highcharts-react-official';
 import HighchartsStock from 'highcharts/modules/stock';
 import HighchartsMore from 'highcharts/highcharts-more';
 
-// Initialize Highcharts modules
+// This is to initialize the Highchart modules that I use to create the graphs
 HighchartsMore(Highcharts);
 HighchartsStock(Highcharts);
 
 const Dashboard = () => {
-  // State to hold chart data
+
+  // This initializes the state to store the candlestick data in an empty array 
   const [candlestickData, setCandlestickData] = useState([]);
+
+  // This initializes the state to store the line chart as an object
+  // that contain the proper elements for use of the API
   const [lineChartData, setLineChartData] = useState({ categories: [], data: [] });
   const [barChartData, setBarChartData] = useState({ categories: [], data: [] });
   const [pieChartData, setPieChartData] = useState({ categories: [], data: [] });
 
+  // Initializes the error message as an empty string incase there is 
+  // an error fetching the data from the API
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Fetch data from API on component mount
+  // useEffect is used to fetch the data from the API 
   useEffect(() => {
+    // Async function that fetches the data 
     const fetchData = async () => {
       try {
         // Fetch data from multiple endpoints
@@ -31,40 +45,52 @@ const Dashboard = () => {
           axios.get('http://localhost:8000/api/pie-chart-data/')
         ]);
 
-        // Update state with fetched data
+        // Update the state with the fetched data
+        // If no data is given to the candlestick, then default to an 
+        // empty array
         setCandlestickData(candlestickRes.data.data || []);
         setLineChartData(lineChartRes.data);
         setBarChartData(barChartRes.data);
         setPieChartData(pieChartRes.data);
+
+        // Clear any error message that may have been initiated
         setErrorMessage('');
       } catch (error) {
+        // If there is an error display this message 
         setErrorMessage('Error fetching data. Please try again later.');
-        // Log any errors during data fetching
+
+        // sends error to console
         console.error('Error fetching data:', error);
       }
     };
 
+    // Calls the fetch data function
     fetchData();
+    // Used this to ensure no multiple calls 
   }, []);
 
-  // Chart options for customization
+  // These are the charts that will define specific details about the 
+  // charts like settings, chart type, title, and axis
+
+  // Line chart options
   const lineChartOptions = {
     chart: {
-      type: 'line',
-      height: '400px'
+      type: 'line', // Chart type
+      height: '400px' // Max height
     },
     title: {
-      text: 'Line Chart'
+      text: 'Line Chart' // Title
     },
     xAxis: {
-      categories: lineChartData.categories
+      categories: lineChartData.categories // Uses the state data for x-axis label
     },
     series: [{
-      name: 'Line Chart Data',
-      data: lineChartData.data
+      name: 'Line Chart Data', // Label for data
+      data: lineChartData.data // Uses the data for the y-axis
     }]
   };
 
+// Bar chart options, similar to the line chart
   const barChartOptions = {
     chart: {
       type: 'bar',
@@ -82,9 +108,10 @@ const Dashboard = () => {
     }]
   };
 
+  // Pie chart options 
   const pieChartOptions = {
     chart: {
-      type: 'pie',
+      type: 'pie', 
       height: '400px'
     },
     title: {
@@ -99,6 +126,7 @@ const Dashboard = () => {
     }]
   };
 
+  // Candle stick options
   const candlestickChartOptions = {
     chart: {
       type: 'candlestick',
@@ -125,7 +153,8 @@ const Dashboard = () => {
     series: [{
       name: 'Candlestick',
       data: (candlestickData || []).map(point => [
-        new Date(point.x).getTime(), // Convert date to timestamp
+        new Date(point.x).getTime(), // Converts data to timestamp
+        // All data for graph
         point.open, // Open
         point.high, // High
         point.low, // Low
@@ -136,11 +165,13 @@ const Dashboard = () => {
   };
 
   return (
+    // The main container for the dashboard, this has responsive styling
     <div className="container mx-auto p-4 bg-gray-100">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Dashboard</h1>
 
       {errorMessage && (
       <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg mb-4">
+        {/* Error message that shows when API call fails*/}
         <h2 className="text-xl font-bold ">Error: {errorMessage} </h2>
         
       </div>
@@ -150,6 +181,7 @@ const Dashboard = () => {
         {/* Line Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Line Chart</h2>
+          {/* Create the chart with options specified above*/}
           <HighchartsReact
             highcharts={Highcharts}
             options={lineChartOptions}
@@ -159,6 +191,7 @@ const Dashboard = () => {
         {/* Bar Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Bar Chart</h2>
+          {/* Create the chart with options specified above*/}
           <HighchartsReact
             highcharts={Highcharts}
             options={barChartOptions}
@@ -168,6 +201,7 @@ const Dashboard = () => {
         {/* Pie Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Pie Chart</h2>
+          {/* Create the chart with options specified above*/}
           <HighchartsReact
             highcharts={Highcharts}
             options={pieChartOptions}
@@ -177,6 +211,7 @@ const Dashboard = () => {
         {/* Candlestick Chart */}
         <div className="chart-container">
           <h2 className="chart-title">Candlestick Chart</h2>
+          {/* Create the chart with options specified above*/}
           <HighchartsReact
             highcharts={Highcharts}
             options={candlestickChartOptions}
