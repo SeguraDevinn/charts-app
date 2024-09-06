@@ -1,42 +1,113 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* Light background */
+  --foreground: #171717; /* Dark text color for contrast */
+  --chart-background: #ffffff; /* Background color for charts */
+  --chart-border: #dddddd; /* Border color for charts */
+  --text-color: var(--foreground); /* Text color variable */
 }
 
+/* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0a0a; /* Dark background */
+    --foreground: #ededed; /* Light text color */
+    --chart-background: #1f1f1f; /* Dark background for charts */
+    --chart-border: #444444; /* Border color for charts in dark mode */
   }
 }
 
+/* Basic resets */
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  font-family: Arial, Helvetica, sans-serif; /* Consistent font family */
+  -webkit-font-smoothing: antialiased; /* Smoother font rendering */
+  -moz-osx-font-smoothing: grayscale; /* Font rendering for macOS */
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+/* Box-sizing for all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Links styling */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* Ensure dark mode colors are applied correctly */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+/* General container styling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Grid layout for responsiveness */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+/* Responsive grid layouts */
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive chart container */
+.chart-container {
+  background-color: var(--chart-background);
+  border: 1px solid var(--chart-border);
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align children to the start of the container */
+  height: 100%; /* Make height flexible to fit the content */
+  max-height: 400px; /* Limit height to prevent overflow */
+}
+
+/* Title above the chart */
+.chart-title {
+  font-size: 1.25rem; /* Adjust as needed */
+  font-weight: 600;
+  color: var(--text-color); /* Adjust as needed */
+  margin-bottom: 0.5rem; /* Space between title and chart */
+}
+
+/* Chart element */
+.chart-container canvas {
+  width: 100%;
+  height: auto; /* Make height flexible to fit content */
+}
+
+/* Grid layout adjustment */
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
 }
