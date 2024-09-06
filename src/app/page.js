@@ -106,9 +106,20 @@ const Dashboard = () => {
     xAxis: {
       type: 'datetime'
     },
+    yAxis: {
+      title: {
+        text: 'Price'
+      }
+    },
     series: [{
       name: 'Candlestick',
-      data: candlestickData
+      data: (candlestickData || []).map(point => [
+        new Date(point.x).getTime(), // Convert date to timestamp
+        point.open, // Open
+        point.high, // High
+        point.low, // Low
+        point.close // Close
+      ])
     }]
   };
 
