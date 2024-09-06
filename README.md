@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dashboard App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This assessment was to create a dashboard that displayed various charts that were created using information from a Django backend API. The frontend was built using React, axios, and Highcharts. This assessment uses Docker
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Setup Instructions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend
+- navigate to the directory where your project is located
+- npm install
+- npm run dev
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Backend
+- navigate to the directory where your project is located
+- install dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- apply the database migrations
+    python manage.py migrate
+- Start backend
+    python manage.py runserver
 
-## Learn More
+### Docker (Optional)
+- make sure that Docker is installed 
+- build and run Docker
+    docker-compose up --build
 
-To learn more about Next.js, take a look at the following resources:
+- frontend should be avaliable at http://localhost:3000 
+- backend should be avaliable at http://localhost:8000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Libraries and Tools Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Frontend:
+- React
+- Next.js
+- Highcharts
+-tailwind CSS
 
-## Deploy on Vercel
+### Backend: 
+- Django
+- Django REST Framework
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Containerization
+- Docker
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Approach and Thought Process
+
+1. **Since this project has two separate parts I started on the backend. I first started by getting all the neccessary things needed to create a Django project and learn what it takes to get it running. Once I get that down I worked on creating the API datasets up and running
+2. **Once I got this down I started working on the front-end fetching of data through the API calls from the Django backend. This allowed for me to test to make sure the calls were working and the backend was responding the way I wanted it to. 
+3. **I then started to work on the charts and displaying the data. This was the hardest part for me but once I got all the data to show up I worked on the responsive design. 
+4. **I then tackled error handling to make sure there the user knew if there was an error. 
+5. **Then I tackled using docker. I had to learn this since this was the first time I had done this. 
+
+# Conclusion
+
+Thank you for allowing me to show you my skills in this assessment. I hope that this was all up to your standards and I hope that I can only learn from you all. 
