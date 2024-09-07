@@ -20,10 +20,6 @@ This assessment was to create a dashboard that displayed various charts that wer
 - Start backend
     python manage.py runserver
 
-### Docker (Optional)
-- make sure that Docker is installed 
-- build and run Docker
-    docker-compose up --build
 
 - frontend should be avaliable at http://localhost:3000 
 - backend should be avaliable at http://localhost:8000
@@ -40,16 +36,14 @@ This assessment was to create a dashboard that displayed various charts that wer
 - Django
 - Django REST Framework
 
-### Containerization
-- Docker
+
 
 ## Approach and Thought Process
 
-1. **Since this project has two separate parts I started on the backend. I first started by getting all the neccessary things needed to create a Django project and learn what it takes to get it running. Once I get that down I worked on creating the API datasets up and running
-2. **Once I got this down I started working on the front-end fetching of data through the API calls from the Django backend. This allowed for me to test to make sure the calls were working and the backend was responding the way I wanted it to. 
-3. **I then started to work on the charts and displaying the data. This was the hardest part for me but once I got all the data to show up I worked on the responsive design. 
-4. **I then tackled error handling to make sure there the user knew if there was an error. 
-5. **Then I tackled using docker. I had to learn this since this was the first time I had done this. 
+1. Since this project has two separate parts I started on the backend. I first started by getting all the neccessary things needed to create a Django project and learn what it takes to get it running. Once I get that down I worked on creating the API datasets up and running
+2. Once I got this down I started working on the front-end fetching of data through the API calls from the Django backend. This allowed for me to test to make sure the calls were working and the backend was responding the way I wanted it to. 
+3. I then started to work on the charts and displaying the data. This was the hardest part for me but once I got all the data to show up I worked on the responsive design. 
+4. I then tackled error handling to make sure there the user knew if there was an error. 
 
 # Conclusion
 
